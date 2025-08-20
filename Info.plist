@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- App Metadata -->
+    <key>CFBundleDisplayName</key>
+    <string>PhotoNester</string>
+    <key>CFBundleName</key>
+    <string>PhotoNester</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.ThirtySixDunes.PhotoClassifier</string>
+    <key>CFBundleVersion</key>
+    <string>3.0</string>
+    <key>CFBundleShortVersionString</key>
+    <string>3.0</string>
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+    <key>UIApplicationSceneManifest</key>
+    <dict>
+        <key>UIApplicationSupportsMultipleScenes</key>
+        <false/>
+    </dict>
+
+    <!-- Privacy Permissions -->
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs access to your photo library to classify and organize your images into albums.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>This app creates albums in your photo library after classifying your images.</string>
+
+    <!-- Background Modes -->
+    <key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>background-processing</string> 
+	</array>
+
+    <!-- BGTaskScheduler Identifiers -->
+    <key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+    	<string>com.ThirtySixDunes.PhotoClassifier.backgroundprocess</string>
+	</array>
+</dict>
+</plist>
