@@ -32,7 +32,7 @@
     <key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
-		<string>background-processing</string> 
+		<string>processing</string>
 	</array>
 
     <!-- BGTaskScheduler Identifiers -->
