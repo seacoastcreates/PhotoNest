@@ -4,39 +4,66 @@ import Photos
 struct AlbumBrowserView: View {
     @EnvironmentObject var classifier: PhotoClassifier
 
+    private let gridColumns = Array(repeating: GridItem(.flexible(), spacing: 8, alignment: .top), count: 3)
+
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                LazyVStack(spacing: 20) {
-                    ForEach(classifier.createdAlbums, id: \.id) { album in
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(album.title)
-                                .font(.headline)
-                                .padding(.horizontal)
+        ZStack {
+            AppTheme.backgroundGradient.ignoresSafeArea()
 
-                            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 3), spacing: 4) {
-                                ForEach(album.assets.prefix(9), id: \.localIdentifier) { asset in
-                                    AssetThumbnail(asset: asset)
-                                }
-                            }
-
-                            NavigationLink(destination: AlbumDetailView(album: album)) {
-                                Text("View All Photos")
-                                    .font(.subheadline)
-                                    .padding(.horizontal)
-                            }
+            NavigationStack {
+                ScrollView {
+                    LazyVStack(spacing: 24) {
+                        ForEach(classifier.createdAlbums, id: \.id) { album in
+                            albumCard(for: album)
                         }
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(12)
-                        .shadow(radius: 1)
-                        .padding(.horizontal)
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 28)
                 }
-                .padding(.top)
+                .scrollIndicators(.hidden)
+                .navigationTitle("My Albums")
+                .toolbarBackground(.hidden, for: .navigationBar)
+                .toolbarTitleDisplayMode(.inline)
             }
-            .navigationTitle("My Albums")
         }
+    }
+
+    private func albumCard(for album: (id: String, title: String, assets: [PHAsset])) -> some View {
+        VStack(alignment: .leading, spacing: 18) {
+            HStack(alignment: .firstTextBaseline) {
+                Text(album.title)
+                    .font(AppTheme.titleFont(22))
+                    .foregroundStyle(.white)
+                Spacer()
+                Text("\(album.assets.count) photos")
+                    .font(AppTheme.bodyFont(15))
+                    .foregroundStyle(Color.white.opacity(0.7))
+            }
+
+            LazyVGrid(columns: gridColumns, spacing: 8) {
+                ForEach(album.assets.prefix(9), id: \.localIdentifier) { asset in
+                    AssetThumbnail(asset: asset)
+                }
+            }
+
+            NavigationLink {
+                AlbumDetailView(album: album)
+            } label: {
+                HStack {
+                    Text("View All Photos")
+                        .font(AppTheme.bodyFont(17))
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 16, weight: .semibold))
+                }
+                .foregroundStyle(AppTheme.primaryAccent)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 12)
+                .background(AppTheme.surfaceBackground)
+                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+            }
+        }
+        .glassCardStyle()
     }
 }
 //
@@ -45,4 +72,3 @@ struct AlbumBrowserView: View {
 //
 //  Created by Kirby Robinson on 7/10/25.
 //
-
